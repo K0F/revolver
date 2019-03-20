@@ -1,1 +1,1 @@
-printf("test passed\n");
+printf("test passed %d,%d,%d\n",R,G,B);
