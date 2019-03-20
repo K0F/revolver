@@ -1,1 +1,2 @@
+R+=100;
 printf("test passed %d,%d,%d\n",R,G,B);
