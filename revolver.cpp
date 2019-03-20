@@ -30,8 +30,6 @@ unsigned short frame[W*H*3] = {0};
 float pi = acos(-1);
 const float two_pi = pi*2.0;
 
-FILE *pipeout;
-char * outputfilename;
 
 char* getCmdOption(char ** begin, char ** end, const std::string & option)
 {
@@ -122,10 +120,15 @@ std::shared_ptr<A> compile(const std::string& code)
 }
 
 void preparePipes(){
+}
+
+// MAIN ICI
+
+int main(int argc, char** argv)
+{
 
   int x, y, count;
-  
-  output = getCmdOption(argv, argv + argc, "-o");
+  char * output = getCmdOption(argv, argv + argc, "-o");  
 
   //char * input = getCmdOption(argv, argv + argc, "-i");
 
@@ -145,20 +148,12 @@ void preparePipes(){
   outputpipe.append(":(ow-iw)/2:0' -r 25 -threads 8 ");
   outputpipe.append(output);
 
-
-  pipeout = popen(outputpipe.c_str(), "w");
-
-}
-
-// MAIN ICI
-
-int main(int argc, char** argv)
-{
-  preparePipes();
-
-  // Open an input pipe from ffmpeg and an output pipe to a second instance of ffmpeg
+// Open an input pipe from ffmpeg and an output pipe to a second instance of ffmpeg
   //FILE *pipein = popen(inputpipe.c_str(), "r");
+  FILE *pipeout = popen(outputpipe.c_str(), "w");
 
+  
+// JIT kung-fu loader ///////////////////////////////////////////////////////
 
   std::ifstream t("program.kof");
   std::string inject((std::istreambuf_iterator<char>(t)),
@@ -177,9 +172,13 @@ int main(int argc, char** argv)
 
   std::cout << "compiling.." << std::endl;
   std::shared_ptr<A> a = compile(code);
-  a->init(input);
+  a->init(0);
   std::cout << "JIT code run: \n"<< std::endl;
   a->f(1,1,1);
+
+
+
+
 
   return EXIT_SUCCESS;
 }
