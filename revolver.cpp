@@ -163,7 +163,7 @@ int main(int argc, char** argv)
   std::string code =  "class B : public A {\n" 
     "    void f(unsigned short in[], int frameCount,int x,int y) const \n" 
     "    {\n" 
-    "    unsigned short R,G,B; R=in[0]; G=in[1]; B=in[1];" +
+    "    unsigned short R,G,B; R=in[0]; G=in[1]; B=in[2];" +
     inject +
     "    oR=R;oG=G;oB=B;"
     "    }\n" 
@@ -179,7 +179,7 @@ int main(int argc, char** argv)
   unsigned short R,G,B;
   R = G = B = 0;
  //int noise = 1;
-    float smooth = 1.0;
+  //float smooth = 1.0;
     unsigned short RGB[3];
     
   //ffmpeg frame loop
@@ -188,6 +188,7 @@ int main(int argc, char** argv)
 
     //srand(time);
     count = 0; 
+    
     // jit loops over pixels
     for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
@@ -201,6 +202,12 @@ int main(int argc, char** argv)
       G=a->G();
       B=a->B();
 
+      frame[count++]=R;
+      frame[count++]=G;
+      frame[count++]=B;
+      
+      time++;
+
       /*
       // probably useless?
       // pixel range limiter
@@ -211,7 +218,6 @@ int main(int argc, char** argv)
       if(R<0)R=0;
       if(G<0)G=0;
       if(B<0)B=0;
-*/
 
       // updatePixels()
       frame[count] += (R-frame[count])/smooth;
@@ -219,10 +225,9 @@ int main(int argc, char** argv)
       frame[count] += (G-frame[count])/smooth;
       count++;
       frame[count] += (B-frame[count])/smooth;
-      count++;
-
+*/
+      
       //proceed steps
-      time++;
 
     }
 
