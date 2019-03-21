@@ -192,9 +192,9 @@ int main(int argc, char** argv)
     for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
       //idiotic
-      RGB[0]=R;
-      RGB[1]=G;
-      RGB[2]=B;
+      RGB[0]=frame[count];
+      RGB[1]=frame[count+1];
+      RGB[2]=frame[count+2];
       //unsigned short RGBmod[3];
 
       a->f(RGB,frameCount,x,y);
@@ -202,7 +202,7 @@ int main(int argc, char** argv)
       R=a->R();
       G=a->G();
       B=a->B();
-
+/*
       // pixel range limiter
       if(R>65535)R=65535;
       if(G>65535)G=65535;
@@ -211,7 +211,7 @@ int main(int argc, char** argv)
       if(R<0)R=0;
       if(G<0)G=0;
       if(B<0)B=0;
-
+*/
 
       // updatePixels()
       frame[count] += (R-frame[count])/smooth;

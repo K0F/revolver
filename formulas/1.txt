@@ -5,7 +5,7 @@ int Y = 576/2;
 double d = sqrt((X-x)*(X-x)+(Y-y)*(Y-y));
 
 // comment
-
-R+=(sin((d/90.0)*TWO_PI/1000.0)*65.0+1.0);
-G=R+(sin(frameCount/(x/50.0+1))+1.0)*5024;
-B=R+(cos(frameCount/(y/50.0+1))+1.0)*5024;
+R+=(sin(((d+frameCount)/900.0)*TWO_PI)+1.0)*65.535;
+G=B=R;
+//G=R+(sin(frameCount/(y/50.0+1))+1.0)*5024;
+//B=R+(cos(frameCount/(y/50.0+1))+1.0)*5024;
