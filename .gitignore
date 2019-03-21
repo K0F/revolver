@@ -1,2 +1,4 @@
 revolver
 *.o
+*.mkv
+*.mov
