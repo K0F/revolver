@@ -8,7 +8,7 @@ class A
     const double PI = acos(-1);
     const double TWO_PI = PI*2.0;
   public:
-    virtual void f(unsigned short in[],unsigned short out[]) const = 0;
+    virtual void f(unsigned short in[],unsigned short out[],int frameCount,int x,int y) const = 0;
     virtual ~A() {};
 };
 #endif /* BLUEPRINT_H */

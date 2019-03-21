@@ -18,9 +18,9 @@
 using namespace std;
 
 // Video resolution
-#define W 1024
+#define W 720
 #define H 576
-#define fW 1024
+#define fW 720
 #define fH 576
 
 unsigned short frame[W*H*3] = {0};
@@ -128,7 +128,7 @@ int main(int argc, char** argv)
   int x, y, count;
   char * output = getCmdOption(argv, argv + argc, "-o");  
 
-  //char * input = getCmdOption(argv, argv + argc, "-i");
+  char * input = getCmdOption(argv, argv + argc, "-i");
 
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");
@@ -137,8 +137,8 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(W));
   outputpipe.append("x");
   outputpipe.append(to_string(H));
-  outputpipe.append(" -r 25 -i - -an -vcodec prores_ks -profile:v 3");
- //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
+  outputpipe.append(" -r 25 -i - -an -vcodec ffv1");
+  //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
   outputpipe.append(" -pix_fmt yuv422p10le -vf 'pad=");
   outputpipe.append(to_string(fW));
   outputpipe.append(":");
@@ -146,25 +146,25 @@ int main(int argc, char** argv)
   outputpipe.append(":(ow-iw)/2:0' -r 25 -threads 4 ");
   outputpipe.append(output);
 
-// Open an input pipe from ffmpeg and an output pipe to a second instance of ffmpeg
+  // Open an input pipe from ffmpeg and an output pipe to a second instance of ffmpeg
   //FILE *pipein = popen(inputpipe.c_str(), "r");
   FILE *pipeout = popen(outputpipe.c_str(), "w");
 
-  
-// JIT kung-fu loader ///////////////////////////////////////////////////////
 
-  std::ifstream t("program.kof");
+  // JIT kung-fu loader ///////////////////////////////////////////////////////
+
+  std::ifstream t(input);
   std::string inject((std::istreambuf_iterator<char>(t)),
-                 std::istreambuf_iterator<char>());
+      std::istreambuf_iterator<char>());
 
 
   // code to be compiled at run-time
   // class needs to be called B and derived from A
   std::string code =  "class B : public A {\n" 
-    "    void f(unsigned short in[],unsigned short out[]) const \n" 
+    "    void f(unsigned short in[],unsigned short out[], int frameCount,int x,int y) const \n" 
     "    {\n" 
     "    unsigned short R,G,B; R=in[0]; G=in[1]; B=in[1];" +
-   	 inject +
+    inject +
     "    out[0]=R;out[1]=G;out[2]=B;"
     "    }\n" 
     "};";
@@ -179,27 +179,32 @@ int main(int argc, char** argv)
   int frameCount = 0;
   int time = 1;
 
- //ffmpeg frame loop
+  //ffmpeg frame loop
   while(1)
   {
 
     int noise = 1;
     int count = 0;
-    float smooth = 1.0;
+    float smooth = 25.0;
     srand(time);
 
     // jit loops over pixels
-   for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
+    for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
-      
-      unsigned short RGB[3] = {R,G,B};
+      //idiotic
+      unsigned short RGB[3];
+      unsigned short RGB2[3];
+      RGB[0]=R;
+      RGB[1]=G;
+      RGB[2]=B;
       //unsigned short RGBmod[3];
 
-      a->f(RGB,RGB);
-      R=RGB[0];
-      G=RGB[1];
-      B=RGB[2];
+      a->f(RGB,RGB2,frameCount,x,y);
       
+      R=RGB2[0];
+      G=RGB2[1];
+      B=RGB2[2];
+
       // pixel range limiter
       if(R>65535)R=65535;
       if(G>65535)G=65535;
@@ -222,10 +227,10 @@ int main(int argc, char** argv)
       time++;
 
     }
-    
-   //proceed frameCount
+
+    //proceed frameCount
     frameCount++;
-    
+
     // Write this frame to the output pipe
     fwrite(frame, sizeof(unsigned short), H*W*3 , pipeout);
   }
