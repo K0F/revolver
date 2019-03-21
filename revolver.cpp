@@ -236,7 +236,7 @@ int main(int argc, char** argv)
   }
 
   // mem cleanup
-  dlclose(dynlib);
+  // dlclose(dynlib);
   fflush(pipeout);
   pclose(pipeout);
 
