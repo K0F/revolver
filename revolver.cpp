@@ -179,7 +179,7 @@ int main(int argc, char** argv)
   unsigned short R,G,B;
   R = G = B = 0;
  //int noise = 1;
-    float smooth = 25.0;
+    float smooth = 1.0;
     unsigned short RGB[3];
     
   //ffmpeg frame loop
@@ -191,18 +191,18 @@ int main(int argc, char** argv)
     // jit loops over pixels
     for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
-      //idiotic
       RGB[0]=frame[count];
       RGB[1]=frame[count+1];
       RGB[2]=frame[count+2];
-      //unsigned short RGBmod[3];
 
       a->f(RGB,frameCount,x,y);
       
       R=a->R();
       G=a->G();
       B=a->B();
-/*
+
+      /*
+      // probably useless?
       // pixel range limiter
       if(R>65535)R=65535;
       if(G>65535)G=65535;
