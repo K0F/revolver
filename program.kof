@@ -1,3 +1,0 @@
-R+=(sin((x/100.0+frameCount)*TWO_PI)+1.0)*6.5535+x;
-G+=(sin(y/200.0+frameCount)+1.0)*6.5535+x;
-B+=(sin((x-y)*10.0)+1.0)*6.5535+x;

@@ -125,7 +125,6 @@ std::shared_ptr<A> compile(const std::string& code)
 int main(int argc, char** argv)
 {
 
-  int x, y, count;
   char * output = getCmdOption(argv, argv + argc, "-o");  
 
   char * input = getCmdOption(argv, argv + argc, "-i");
@@ -143,8 +142,9 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(fW));
   outputpipe.append(":");
   outputpipe.append(to_string(fH));
-  outputpipe.append(":(ow-iw)/2:0' -r 25 -threads 4 ");
+  outputpipe.append(":(ow-iw)/2:0' -r 25 -threads 4 -f matroska - | tee ");
   outputpipe.append(output);
+  outputpipe.append(" | mpv -");
 
   // Open an input pipe from ffmpeg and an output pipe to a second instance of ffmpeg
   //FILE *pipein = popen(inputpipe.c_str(), "r");
@@ -169,26 +169,25 @@ int main(int argc, char** argv)
     "    }\n" 
     "};";
 
-  unsigned short R,G,B;
-  R = G = B = 0;
-
-  std::cout << "compiling.." << std::endl;
+    std::cout << "compiling.." << std::endl;
   std::shared_ptr<A> a = compile(code);
   std::cout << "JIT code run: \n"<< std::endl;
 
   int frameCount = 0;
   int time = 1;
-
+  int x, y, count = 0;
+  unsigned short R,G,B;
+  R = G = B = 0;
+ //int noise = 1;
+    float smooth = 25.0;
+    unsigned short RGB[3];
+    
   //ffmpeg frame loop
   while(1)
   {
 
-    int noise = 1;
-    int count = 0;
-    float smooth = 25.0;
-    srand(time);
-   unsigned short RGB[3];
-    
+    //srand(time);
+    count = 0; 
     // jit loops over pixels
     for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
