@@ -88,6 +88,7 @@ std::shared_ptr<A> compile(const std::string& code)
   int ret = system(cmd.c_str());
   if(WEXITSTATUS(ret) != EXIT_SUCCESS) {
     std::cout << "compilation failed, see " << logfile << std::endl;
+    system("cat /tmp/jitlog.log");
     exit(EXIT_FAILURE);
   }
 
@@ -160,7 +161,7 @@ int main(int argc, char** argv)
   // code to be compiled at run-time
   // class needs to be called B and derived from A
   std::string code =  "class B : public A {\n" 
-    "    void f() const \n" 
+    "    void *f(unsigned short R, unsigned short G, unsigned short B) const \n" 
     "    {\n" +
    	 inject +
     "    }\n" 
@@ -172,7 +173,6 @@ int main(int argc, char** argv)
   std::cout << "compiling.." << std::endl;
   std::shared_ptr<A> a = compile(code);
   std::cout << "JIT code run: \n"<< std::endl;
-
 
   int frameCount = 0;
   int time = 1;
@@ -189,15 +189,9 @@ int main(int argc, char** argv)
     // jit loops over pixels
    for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
-      a->r(R);
-      a->g(G);
-      a->b(B);
       
-      a->f();
+      a->f(R,G,B);
 
-      R=a->getR();
-      G=a->getG();
-      B=a->getB();
 
       // pixel range limiter
       if(R>65535)R=65535;
