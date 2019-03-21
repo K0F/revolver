@@ -161,10 +161,11 @@ int main(int argc, char** argv)
   // code to be compiled at run-time
   // class needs to be called B and derived from A
   std::string code =  "class B : public A {\n" 
-    "    unsigned short f(unsigned short R) const \n" 
-    "    {\n" +
+    "    void f(unsigned short in[],unsigned short out[]) const \n" 
+    "    {\n" 
+    "unsigned short R,G,B; R=in[0]; G=in[1]; B=in[1];" +
    	 inject +
-         "return R;"
+    "    out[0]=R;out[1]=G;out[2]=B;"
     "    }\n" 
     "};";
 
@@ -191,9 +192,14 @@ int main(int argc, char** argv)
    for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
       
+      unsigned short RGB[3] = {R,G,B};
+      unsigned short RGBmod[3];
 
-      R=a->f(R);
-
+      a->f(RGB,RGBmod);
+      R=RGBmod[0];
+      G=RGBmod[0];
+      B=RGBmod[0];
+      
       // pixel range limiter
       if(R>65535)R=65535;
       if(G>65535)G=65535;
