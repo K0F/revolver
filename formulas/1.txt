@@ -5,6 +5,6 @@ long max = 65535;
 long d = sqrt((X-x+0.5)*(X-x+0.5)+(Y-y+0.5)*(Y-y+0.5));
 
 // comment
-B+=((sin(((d-frameCount)/100.0)*TWO_PI)+1.0)/2.0*(max)-B)/25.0;
-R+=(B-R)/25.0;
-G+=(R-G)/25.0;
+B+=((sin(((d-frameCount)/10.0)*TWO_PI)+1.0)/2.0*(max)-B)/25.0;
+R+=(B-R+sin(y/50.0*TWO_PI)*(max/100.0))/25.0;
+G+=(R-G+cos(y/50.1337*TWO_PI)*(max/100.0))/25.0;
