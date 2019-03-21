@@ -119,9 +119,6 @@ std::shared_ptr<A> compile(const std::string& code)
   return std::shared_ptr<A>(a);
 }
 
-void preparePipes(){
-}
-
 // MAIN ICI
 
 int main(int argc, char** argv)
@@ -140,12 +137,12 @@ int main(int argc, char** argv)
   outputpipe.append("x");
   outputpipe.append(to_string(H));
   outputpipe.append(" -r 25 -i - -an -vcodec ffv1");
-  //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
-  outputpipe.append(" -pix_fmt yuv444p16le -vf 'pad=");
+  outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
+  outputpipe.append(" -pix_fmt yuv444p10le -vf 'pad=");
   outputpipe.append(to_string(fW));
   outputpipe.append(":");
   outputpipe.append(to_string(fH));
-  outputpipe.append(":(ow-iw)/2:0' -r 25 -threads 8 ");
+  outputpipe.append(":(ow-iw)/2:0' -r 25 -threads 4 ");
   outputpipe.append(output);
 
 // Open an input pipe from ffmpeg and an output pipe to a second instance of ffmpeg
@@ -163,22 +160,77 @@ int main(int argc, char** argv)
   // code to be compiled at run-time
   // class needs to be called B and derived from A
   std::string code =  "class B : public A {\n" 
-    "    int f(int R, int G, int B) const \n" 
-    "    {\n" + 
-   	 inject + 
-    	 "return 1;\n" 
+    "    void f() const \n" 
+    "    {\n" +
+   	 inject +
     "    }\n" 
     "};";
 
+  unsigned short R,G,B;
+  R = G = B = 0;
+
   std::cout << "compiling.." << std::endl;
   std::shared_ptr<A> a = compile(code);
-  a->init(0);
   std::cout << "JIT code run: \n"<< std::endl;
-  a->f(1,1,1);
 
 
+  int frameCount = 0;
+  int time = 1;
+
+ //ffmpeg frame loop
+  while(1)
+  {
+
+    int noise = 1;
+    int count = 0;
+    float smooth = 1.0;
+    srand(time);
+
+    // jit loops over pixels
+   for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
+    {
+      a->r(R);
+      a->g(G);
+      a->b(B);
+      
+      a->f();
+
+      R=a->getR();
+      G=a->getG();
+      B=a->getB();
+
+      // pixel range limiter
+      if(R>65535)R=65535;
+      if(G>65535)G=65535;
+      if(B>65535)B=65535;
+
+      if(R<0)R=0;
+      if(G<0)G=0;
+      if(B<0)B=0;
 
 
+      // updatePixels()
+      frame[count] += (R-frame[count])/smooth;
+      count++;
+      frame[count] += (G-frame[count])/smooth;
+      count++;
+      frame[count] += (B-frame[count])/smooth;
+      count++;
+
+      //proceed steps
+      time++;
+
+    }
+    
+   //proceed frameCount
+    frameCount++;
+    
+    // Write this frame to the output pipe
+    fwrite(frame, sizeof(unsigned short), H*W*3 , pipeout);
+  }
+
+  fflush(pipeout);
+  pclose(pipeout);
 
   return EXIT_SUCCESS;
 }

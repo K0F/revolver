@@ -5,10 +5,15 @@
 class A
 {
   protected:
-    double m_input;     // or use a pointer to a larger input object
   public:
-    virtual int f(int R, int G, int B) const = 0;
-    void init(double input) { m_input=input; }
+    unsigned short R,G,B;     // or use a pointer to a larger input object
+    virtual void f() const;
+    void r(unsigned short _R) { R=_R; }
+    void g(unsigned short _G) { G=_G; }
+    void b(unsigned short _B) { B=_B; }
+    unsigned short getR() { return R; }
+    unsigned short getG() { return G; }
+    unsigned short getB() { return B; }
     virtual ~A() {};
 };
 #endif /* BLUEPRINT_H */
