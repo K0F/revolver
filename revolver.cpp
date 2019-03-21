@@ -137,9 +137,9 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(W));
   outputpipe.append("x");
   outputpipe.append(to_string(H));
-  outputpipe.append(" -r 25 -i - -an -vcodec ffv1");
-  outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
-  outputpipe.append(" -pix_fmt yuv444p10le -vf 'pad=");
+  outputpipe.append(" -r 25 -i - -an -vcodec prores_ks -profile:v 3");
+ //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
+  outputpipe.append(" -pix_fmt yuv422p10le -vf 'pad=");
   outputpipe.append(to_string(fW));
   outputpipe.append(":");
   outputpipe.append(to_string(fH));
@@ -163,7 +163,7 @@ int main(int argc, char** argv)
   std::string code =  "class B : public A {\n" 
     "    void f(unsigned short in[],unsigned short out[]) const \n" 
     "    {\n" 
-    "unsigned short R,G,B; R=in[0]; G=in[1]; B=in[1];" +
+    "    unsigned short R,G,B; R=in[0]; G=in[1]; B=in[1];" +
    	 inject +
     "    out[0]=R;out[1]=G;out[2]=B;"
     "    }\n" 
@@ -193,12 +193,12 @@ int main(int argc, char** argv)
     {
       
       unsigned short RGB[3] = {R,G,B};
-      unsigned short RGBmod[3];
+      //unsigned short RGBmod[3];
 
-      a->f(RGB,RGBmod);
-      R=RGBmod[0];
-      G=RGBmod[0];
-      B=RGBmod[0];
+      a->f(RGB,RGB);
+      R=RGB[0];
+      G=RGB[1];
+      B=RGB[2];
       
       // pixel range limiter
       if(R>65535)R=65535;
@@ -213,9 +213,9 @@ int main(int argc, char** argv)
       // updatePixels()
       frame[count] += (R-frame[count])/smooth;
       count++;
-      frame[count] += (R-frame[count])/smooth;
+      frame[count] += (G-frame[count])/smooth;
       count++;
-      frame[count] += (R-frame[count])/smooth;
+      frame[count] += (B-frame[count])/smooth;
       count++;
 
       //proceed steps
