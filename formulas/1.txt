@@ -1,10 +1,10 @@
 
 int X = 720/2;
 int Y = 576/2;
-double max = 65535;
-double d = sqrt((X-x)*(X-x)+(Y-y)*(Y-y));
+long max = 65535;
+long d = sqrt((X-x+0.5)*(X-x+0.5)+(Y-y+0.5)*(Y-y+0.5));
 
 // comment
-B+=(sin(((d-frameCount)/100.0)*TWO_PI)+1.0)/2.0*(max/25.0);
-R+=(B-R)/100.0;
-G+=(R-G)/100.1;
+B+=((sin(((d-frameCount)/100.0)*TWO_PI)+1.0)/2.0*(max)-B)/25.0;
+R+=(B-R)/25.0;
+G+=(R-G)/25.0;

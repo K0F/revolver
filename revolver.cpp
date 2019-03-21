@@ -163,7 +163,7 @@ int main(int argc, char** argv)
   std::string code =  "class B : public A {\n" 
     "    void f(unsigned short in[], int frameCount,int x,int y) const \n" 
     "    {\n" 
-    "    unsigned short R,G,B; R=in[0]; G=in[1]; B=in[2];" +
+    "    unsigned short R=in[0], G=in[1], B=in[2];" +
     inject +
     "    oR=R;oG=G;oB=B;"
     "    }\n" 

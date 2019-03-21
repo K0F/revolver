@@ -5,8 +5,8 @@
 class A
 {
   protected:
-    const double PI = acos(-1);
-    const double TWO_PI = PI*2.0;
+    const long PI = acos(-1);
+    const long TWO_PI = PI*2.0;
     mutable unsigned short oR,oG,oB;
   public:
     virtual void f(unsigned short in[],int frameCount,int x,int y) const = 0;
