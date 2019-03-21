@@ -161,9 +161,10 @@ int main(int argc, char** argv)
   // code to be compiled at run-time
   // class needs to be called B and derived from A
   std::string code =  "class B : public A {\n" 
-    "    void *f(unsigned short R, unsigned short G, unsigned short B) const \n" 
+    "    unsigned short f(unsigned short R) const \n" 
     "    {\n" +
    	 inject +
+         "return R;"
     "    }\n" 
     "};";
 
@@ -190,8 +191,8 @@ int main(int argc, char** argv)
    for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
       
-      a->f(R,G,B);
 
+      R=a->f(R);
 
       // pixel range limiter
       if(R>65535)R=65535;
@@ -206,9 +207,9 @@ int main(int argc, char** argv)
       // updatePixels()
       frame[count] += (R-frame[count])/smooth;
       count++;
-      frame[count] += (G-frame[count])/smooth;
+      frame[count] += (R-frame[count])/smooth;
       count++;
-      frame[count] += (B-frame[count])/smooth;
+      frame[count] += (R-frame[count])/smooth;
       count++;
 
       //proceed steps

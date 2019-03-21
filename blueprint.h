@@ -5,10 +5,12 @@
 class A
 {
   protected:
-    unsigned short R,G,B;
+    unsigned short m_R,m_G,m_B;
   public:
-    virtual void *f(unsigned short _R, unsigned short _G, unsigned short _B) const = 0;
-    void init();
+    virtual unsigned short f(unsigned short R) const = 0;
+    void setR(unsigned short input){ m_R=input; };
+    void setG(unsigned short input){ m_G=input; };
+    void setB(unsigned short input){ m_B=input; };
     virtual ~A() {};
 };
 #endif /* BLUEPRINT_H */
