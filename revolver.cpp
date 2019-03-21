@@ -235,6 +235,8 @@ int main(int argc, char** argv)
     fwrite(frame, sizeof(unsigned short), H*W*3 , pipeout);
   }
 
+  // mem cleanup
+  dlclose(dynlib);
   fflush(pipeout);
   pclose(pipeout);
 
