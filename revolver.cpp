@@ -136,7 +136,7 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(W));
   outputpipe.append("x");
   outputpipe.append(to_string(H));
-  outputpipe.append(" -r 25 -i - -an -vcodec ffv1");
+  outputpipe.append(" -r 25 -i - -an -loglevel fatal -vcodec ffv1");
   //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
   outputpipe.append(" -pix_fmt yuv422p10le -vf 'pad=");
   outputpipe.append(to_string(fW));
