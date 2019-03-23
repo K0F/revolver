@@ -25,7 +25,7 @@ int fH = 576;
 
 std::shared_ptr<A> a;
 
-float frameRate = 25.0;
+string frameRate = "25.0";
 string pixfmt = "yuv422p10le";
 //unsigned short frame[];// = {0};
 
@@ -150,6 +150,7 @@ int main(int argc, char** argv)
   char * size = getCmdOption(argv, argv + argc, "-s");
   char * fsize = getCmdOption(argv, argv + argc, "-f");
   char * pix_fmt = getCmdOption(argv, argv + argc, "-p");
+  char * rate = getCmdOption(argv, argv + argc, "-r");
 
   // it works, duh
 
@@ -179,6 +180,10 @@ int main(int argc, char** argv)
   if(pix_fmt){
     pixfmt=string(pix_fmt);
   }
+
+  if(rate){
+    frameRate=string(rate);
+  }
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");
 
@@ -187,7 +192,7 @@ int main(int argc, char** argv)
   outputpipe.append("x");
   outputpipe.append(to_string(H));
   outputpipe.append(" -r ");
-  outputpipe.append(to_string(frameRate));
+  outputpipe.append(frameRate); // string or float? that is a question
   outputpipe.append(" -i - -an -loglevel fatal -vcodec ffv1");
   //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
   outputpipe.append(" -pix_fmt ");
@@ -197,7 +202,7 @@ int main(int argc, char** argv)
   outputpipe.append(":");
   outputpipe.append(to_string(fH));
   outputpipe.append(":(ow-iw)/2:(oh-ih)/2' -r ");
-  outputpipe.append(to_string(frameRate));
+  outputpipe.append(frameRate);
   outputpipe.append(" -threads 4 -f matroska - | tee ");
   outputpipe.append(output);
   outputpipe.append(" | mpv -");
