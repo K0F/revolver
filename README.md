@@ -23,3 +23,7 @@
   - ```ffmpeg``` swiss army knife for video
   - ```mpv``` modern videoplayer
   - ```g++``` c++ compiler
+
+## compatibility:
+
+  It works on Linux only (MacOs would possibly do as well, untested)
