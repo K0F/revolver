@@ -18,17 +18,17 @@
 using namespace std;
 
 // Video resolution
-#define W 720
-#define H 576
-#define fW 720
-#define fH 576
+int W = 720;
+int H = 576;
+int fW = 720;
+int fH = 576;
 
-unsigned short frame[W*H*3] = {0};
+float frameRate = 25.0;
+string pixfmt = "yuv422p10le";
+//unsigned short frame[];// = {0};
 
 // allocate a buffer to store one frame
 //unsigned bit_field frame[h][w][3];
-float pi = acos(-1);
-const float two_pi = pi*2.0;
 
 
 char* getCmdOption(char ** begin, char ** end, const std::string & option)
@@ -136,13 +136,19 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(W));
   outputpipe.append("x");
   outputpipe.append(to_string(H));
-  outputpipe.append(" -r 25 -i - -an -loglevel fatal -vcodec ffv1");
+  outputpipe.append(" -r ");
+  outputpipe.append(to_string(frameRate));
+  outputpipe.append(" -i - -an -loglevel fatal -vcodec ffv1");
   //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
-  outputpipe.append(" -pix_fmt yuv422p10le -vf 'pad=");
+  outputpipe.append(" -pix_fmt ");
+  outputpipe.append(pixfmt);
+  outputpipe.append(" -vf 'pad=");
   outputpipe.append(to_string(fW));
   outputpipe.append(":");
   outputpipe.append(to_string(fH));
-  outputpipe.append(":(ow-iw)/2:0' -r 25 -threads 4 -f matroska - | tee ");
+  outputpipe.append(":(ow-iw)/2:0' -r ");
+  outputpipe.append(to_string(frameRate));
+  outputpipe.append(" -threads 4 -f matroska - | tee ");
   outputpipe.append(output);
   outputpipe.append(" | mpv -");
 
@@ -172,6 +178,8 @@ int main(int argc, char** argv)
     std::cout << "compiling.." << std::endl;
   std::shared_ptr<A> a = compile(code);
   std::cout << "JIT code run: \n"<< std::endl;
+
+  unsigned short frame[W*H*3] = {0};
 
   int frameCount = 0;
   int time = 1;
