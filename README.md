@@ -16,3 +16,10 @@
   - ```-s 720x576``` size
   - ```-f 1998x1080``` actual framesize (adding letterboxes / pilarboxes to ```-s```)
   - ```-p yuv444p16le``` setting pixelformat of the output (see ```ffmpeg -pix_fmts``` for full list)
+
+
+## dependencies:
+
+  - ```ffmpeg``` swiss army knife for video
+  - ```mpv``` modern videoplayer
+  - ```g++``` c++ compiler
