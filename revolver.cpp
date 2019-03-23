@@ -134,7 +134,31 @@ vector<string> split (const string &s, char delim) {
     return result;
 }
 
-void rebuild(string code){
+void rebuild(char * input){
+
+  // JIT kung-fu loader ///////////////////////////////////////////////////////
+
+  std::ifstream t(input);
+  std::string inject((std::istreambuf_iterator<char>(t)),
+      std::istreambuf_iterator<char>());
+
+
+  // code to be compiled at run-time
+  // class needs to be called B and derived from A
+  std::string code =  "class B : public A {\n" 
+    "    void initFrame(int _width, int _height) const \n"
+    "    {\n" 
+    "      width = _width;\n"
+    "      height = _height;\n"
+    "    }\n"
+    "    void f(unsigned short in[], int frameCount,int x,int y) const \n" 
+    "    {\n" 
+    "    unsigned short R=in[0], G=in[1], B=in[2];" +
+    inject +
+    "    oR=R;oG=G;oB=B;"
+    "    }\n" 
+    "};";
+
   std::cout << "compiling.." << std::endl;
   a = compile(code);
   a->initFrame(W,H);
@@ -152,6 +176,7 @@ int main(int argc, char** argv)
   char * fsize = getCmdOption(argv, argv + argc, "-f");
   char * pix_fmt = getCmdOption(argv, argv + argc, "-p");
   char * rate = getCmdOption(argv, argv + argc, "-r");
+  char * timer = getCmdOption(argv, argv + argc, "-t");
 
   // it works, duh
   // todo broken parsing.. 
@@ -198,8 +223,9 @@ int main(int argc, char** argv)
   if(W>fW){fW=W;adjust=true;}
 
   if(adjust){
-  cout << "adjusting frame size to " << W << "x" << H << " framed in " << fW << "x" << fH << endl;
+  cout << "adjusting pix area to " << W << "x" << H << " framed in " << fW << "x" << fH << endl;
   }
+
   std::string outputpipe("ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb48le -s ");
   outputpipe.append(to_string(W));
   outputpipe.append("x");
@@ -216,6 +242,10 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(fH));
   outputpipe.append(":(ow-iw)/2:(oh-ih)/2' -r ");
   outputpipe.append(frameRate);
+  if(timer){
+    outputpipe.append(" -t ");
+    outputpipe.append(timer);
+  }
   outputpipe.append(" -threads 4 -f matroska - | tee ");
   outputpipe.append(output);
   outputpipe.append(" | mpv -");
@@ -224,32 +254,8 @@ int main(int argc, char** argv)
   //FILE *pipein = popen(inputpipe.c_str(), "r");
   FILE *pipeout = popen(outputpipe.c_str(), "w");
 
-
-  // JIT kung-fu loader ///////////////////////////////////////////////////////
-
-  std::ifstream t(input);
-  std::string inject((std::istreambuf_iterator<char>(t)),
-      std::istreambuf_iterator<char>());
-
-
-  // code to be compiled at run-time
-  // class needs to be called B and derived from A
-  std::string code =  "class B : public A {\n" 
-    "    void initFrame(int _width, int _height) const \n"
-    "    {\n" 
-    "      width = _width;\n"
-    "      height = _height;\n"
-    "    }\n"
-    "    void f(unsigned short in[], int frameCount,int x,int y) const \n" 
-    "    {\n" 
-    "    unsigned short R=in[0]*max, G=in[1]*max, B=in[2]*max;" +
-    inject +
-    "    oR=R;oG=G;oB=B;"
-    "    }\n" 
-    "};";
-
   // compile code
-  rebuild(code);
+  rebuild(input);
 
   int frameCount = 0;
   int time = 1;
@@ -267,6 +273,13 @@ int main(int argc, char** argv)
   //ffmpeg frame loop
   while(1)
   {
+
+
+    /*
+    if(frameCount%25==0){
+      rebuild(input);
+    }
+    */
 
     //srand(time);
     count = 0; 
@@ -322,6 +335,7 @@ int main(int argc, char** argv)
 
   // mem cleanup
   // dlclose(dynlib);
+  // frame=vector<unsigned char>();
   fflush(pipeout);
   pclose(pipeout);
 
