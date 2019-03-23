@@ -4,7 +4,7 @@
 
   _Q: That is crazy.. why would you do that? ..it is so much slower_
   
-  _A: Yup, but it is sort of tricky to get 16-bit pixel out of your GPU ..and it much more fun! ;)_
+  _A: Yup, but it is sort of tricky to get 16-bit pixel out of your GPU ..and it is much more fun! ;)_
 
 ## options:
 
