@@ -33,7 +33,7 @@
 
 ## run:
 
-  - ```./revolver -i formulas/1.txt -s 4096x2160 -p yuv444p16le -o My4kBlockBuster.mkv```
+  - ```./revolver -i formulas/1.txt -s 4096x2160 -p yuv444p16le -r 24 -o My4kBlockBuster.mkv```
  
   It outputs FFV1 codec in Matroška container, later you can convert such MASTER into DPX series, DCP or ProRes to use it in whatever professional video editor of your choice.
 
