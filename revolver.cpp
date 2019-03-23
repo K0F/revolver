@@ -2,7 +2,7 @@
 #include <cstdlib>      // EXIT_FAILURE, etc
 #include <string>
 #include <iostream>
-#include <fstream>
+#include <sstream>
 #include <dlfcn.h>      // dynamic library loading, dlopen() etc
 #include <memory>       // std::shared_ptr
 #include <fstream>
@@ -13,6 +13,7 @@
 #include <vector>
 #include <iterator>
 #include <stdlib.h>
+#include <vector>
 
 using namespace std;
 
@@ -121,6 +122,18 @@ std::shared_ptr<A> compile(const std::string& code)
 }
 
 
+vector<string> split (const string &s, char delim) {
+    vector<string> result;
+    stringstream ss (s);
+    string item;
+
+    while (getline (ss, item, delim)) {
+        result.push_back (item);
+    }
+
+    return result;
+}
+
 void rebuild(string code){
   std::cout << "compiling.." << std::endl;
   a = compile(code);
@@ -134,8 +147,12 @@ int main(int argc, char** argv)
 
   char * output = getCmdOption(argv, argv + argc, "-o");  
   char * input = getCmdOption(argv, argv + argc, "-i");
-  char * fsize = getCmdOption(argv, argv + argc, "-s");
-  
+  char * size = getCmdOption(argv, argv + argc, "-s");
+  char * fsize = getCmdOption(argv, argv + argc, "-f");
+  char * pix_fmt = getCmdOption(argv, argv + argc, "-p");
+
+
+
 
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");

@@ -1,4 +1,5 @@
 revolver
+outputs
 *.o
 *.mkv
 *.mov
