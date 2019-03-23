@@ -151,9 +151,28 @@ int main(int argc, char** argv)
   char * fsize = getCmdOption(argv, argv + argc, "-f");
   char * pix_fmt = getCmdOption(argv, argv + argc, "-p");
 
+  // it works, duh
+  if(size){
+    string siz(size);
+    vector<string> dim = split(siz,'x');
+    string s;
+    for (const auto &piece : dim[0]) s += piece;
+    W = atoi(s.c_str());
+    s="";
+    for (const auto &piece : dim[1]) s += piece;
+    H = atoi(s.c_str());
+  }
 
-
-
+  if(fsize){
+    string siz(fsize);
+    vector<string> dim = split(siz,'x');
+    string s;
+    for (const auto &piece : dim[0]) s += piece;
+    fW = atoi(s.c_str());
+    s="";
+    for (const auto &piece : dim[1]) s += piece;
+    fH = atoi(s.c_str());
+  }
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");
 
@@ -171,7 +190,7 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(fW));
   outputpipe.append(":");
   outputpipe.append(to_string(fH));
-  outputpipe.append(":(ow-iw)/2:0' -r ");
+  outputpipe.append(":(ow-iw)/2:(oh-ih)/2' -r ");
   outputpipe.append(to_string(frameRate));
   outputpipe.append(" -threads 4 -f matroska - | tee ");
   outputpipe.append(output);
