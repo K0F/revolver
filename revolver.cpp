@@ -14,7 +14,6 @@
 #include <iterator>
 #include <stdlib.h>
 
-
 using namespace std;
 
 // Video resolution
@@ -23,13 +22,14 @@ int H = 576;
 int fW = 720;
 int fH = 576;
 
+std::shared_ptr<A> a;
+
 float frameRate = 25.0;
 string pixfmt = "yuv422p10le";
 //unsigned short frame[];// = {0};
 
 // allocate a buffer to store one frame
 //unsigned bit_field frame[h][w][3];
-
 
 char* getCmdOption(char ** begin, char ** end, const std::string & option)
 {
@@ -120,14 +120,22 @@ std::shared_ptr<A> compile(const std::string& code)
   return std::shared_ptr<A>(a);
 }
 
+
+void rebuild(string code){
+  std::cout << "compiling.." << std::endl;
+  a = compile(code);
+  std::cout << "JIT code run: \n"<< std::endl;
+}
+
 // MAIN ICI
 
 int main(int argc, char** argv)
 {
 
   char * output = getCmdOption(argv, argv + argc, "-o");  
-
   char * input = getCmdOption(argv, argv + argc, "-i");
+  char * fsize = getCmdOption(argv, argv + argc, "-s");
+  
 
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");
@@ -175,21 +183,17 @@ int main(int argc, char** argv)
     "    }\n" 
     "};";
 
-  std::cout << "compiling.." << std::endl;
-  std::shared_ptr<A> a = compile(code);
-  std::cout << "JIT code run: \n"<< std::endl;
-
-  unsigned short frame[W*H*3] = {0};
+  // compile code
+  rebuild(code);
 
   int frameCount = 0;
   int time = 1;
   int x, y, count = 0;
   unsigned short R,G,B;
   R = G = B = 0;
-  //int noise = 1;
-  //float smooth = 1.0;
   unsigned short RGB[3];
-
+  unsigned short frame[W*H*3] = {0};
+  
   //ffmpeg frame loop
   while(1)
   {
