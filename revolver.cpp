@@ -152,16 +152,18 @@ int main(int argc, char** argv)
   char * pix_fmt = getCmdOption(argv, argv + argc, "-p");
 
   // it works, duh
+
   if(size){
     string siz(size);
     vector<string> dim = split(siz,'x');
     string s;
     for (const auto &piece : dim[0]) s += piece;
-    W = atoi(s.c_str());
+    fW = W = atoi(s.c_str());
     s="";
     for (const auto &piece : dim[1]) s += piece;
-    H = atoi(s.c_str());
+    fH = H = atoi(s.c_str());
   }
+
 
   if(fsize){
     string siz(fsize);
@@ -172,6 +174,10 @@ int main(int argc, char** argv)
     s="";
     for (const auto &piece : dim[1]) s += piece;
     fH = atoi(s.c_str());
+  }
+ 
+  if(pix_fmt){
+    pixfmt=string(pix_fmt);
   }
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");
