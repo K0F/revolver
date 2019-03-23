@@ -137,6 +137,7 @@ vector<string> split (const string &s, char delim) {
 void rebuild(string code){
   std::cout << "compiling.." << std::endl;
   a = compile(code);
+  a->initFrame(W,H);
   std::cout << "JIT code run: \n"<< std::endl;
 }
 
@@ -147,29 +148,28 @@ int main(int argc, char** argv)
 
   char * output = getCmdOption(argv, argv + argc, "-o");  
   char * input = getCmdOption(argv, argv + argc, "-i");
-  char * size = getCmdOption(argv, argv + argc, "-s");
+  char * ssize = getCmdOption(argv, argv + argc, "-s");
   char * fsize = getCmdOption(argv, argv + argc, "-f");
   char * pix_fmt = getCmdOption(argv, argv + argc, "-p");
   char * rate = getCmdOption(argv, argv + argc, "-r");
 
   // it works, duh
-
-  if(size){
-    string siz(size);
+  // todo broken parsing.. 
+  if(ssize){
+    string siz(ssize);
     vector<string> dim = split(siz,'x');
-    string s;
+    string s="";
     for (const auto &piece : dim[0]) s += piece;
-    fW = W = atoi(s.c_str());
+    W = atoi(s.c_str());
     s="";
     for (const auto &piece : dim[1]) s += piece;
-    fH = H = atoi(s.c_str());
+    H = atoi(s.c_str());
   }
-
-
+  
   if(fsize){
     string siz(fsize);
     vector<string> dim = split(siz,'x');
-    string s;
+    string s="";
     for (const auto &piece : dim[0]) s += piece;
     fW = atoi(s.c_str());
     s="";
@@ -177,6 +177,7 @@ int main(int argc, char** argv)
     fH = atoi(s.c_str());
   }
  
+
   if(pix_fmt){
     pixfmt=string(pix_fmt);
   }
@@ -186,7 +187,19 @@ int main(int argc, char** argv)
   }
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");
+  
+  cout << W << "x" << H << " framed in " << fW << "x" << fH << endl;
+  
+  bool adjust = false;
 
+  if(fW<W){fW=W;adjust=true;}
+  if(fH<H){fH=H;adjust=true;}
+  if(H>fH){fH=H;adjust=true;}
+  if(W>fW){fW=W;adjust=true;}
+
+  if(adjust){
+  cout << "adjusting frame size to " << W << "x" << H << " framed in " << fW << "x" << fH << endl;
+  }
   std::string outputpipe("ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb48le -s ");
   outputpipe.append(to_string(W));
   outputpipe.append("x");
@@ -222,9 +235,14 @@ int main(int argc, char** argv)
   // code to be compiled at run-time
   // class needs to be called B and derived from A
   std::string code =  "class B : public A {\n" 
+    "    void initFrame(int _width, int _height) const \n"
+    "    {\n" 
+    "      width = _width;\n"
+    "      height = _height;\n"
+    "    }\n"
     "    void f(unsigned short in[], int frameCount,int x,int y) const \n" 
     "    {\n" 
-    "    unsigned short R=in[0], G=in[1], B=in[2];" +
+    "    unsigned short R=in[0]*max, G=in[1]*max, B=in[2]*max;" +
     inject +
     "    oR=R;oG=G;oB=B;"
     "    }\n" 
@@ -239,7 +257,12 @@ int main(int argc, char** argv)
   unsigned short R,G,B;
   R = G = B = 0;
   unsigned short RGB[3];
-  unsigned short frame[W*H*3] = {0};
+  cout << "memory to alocate has " << (W*H*3) << " bytes" << endl;
+  
+  
+  vector<unsigned short> frame;
+  for(int i = 0 ; i < W*H*3;i++)
+    frame.push_back((unsigned short)0);
   
   //ffmpeg frame loop
   while(1)
@@ -294,7 +317,7 @@ int main(int argc, char** argv)
     frameCount++;
 
     // Write this frame to the output pipe
-    fwrite(frame, sizeof(unsigned short), H*W*3 , pipeout);
+    fwrite(frame.data(), sizeof(unsigned short), W*H*3 , pipeout);
   }
 
   // mem cleanup
