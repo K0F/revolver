@@ -24,6 +24,18 @@
   - ```mpv``` modern videoplayer
   - ```g++``` c++ compiler
 
+## build:
+
+  - ```git clone https://github.com/K0F/revolver```
+  - ```cd revolver```
+  - ```make```
+
+## run:
+
+  - ```./revolver -i formulas/1.txt -s 4096x2160 -p yuv444p16le -o My4kBlockBuster.mkv```
+ 
+  It outputs FFV1 codec in Matroška container, later you can convert such MASTER into DPX series, DCP or ProRes to use it in whatever professional video editor of your choice.
+
 ## compatibility:
 
   It works on Linux only (MacOs would possibly do as well, untested)
