@@ -175,7 +175,7 @@ int main(int argc, char** argv)
     "    }\n" 
     "};";
 
-    std::cout << "compiling.." << std::endl;
+  std::cout << "compiling.." << std::endl;
   std::shared_ptr<A> a = compile(code);
   std::cout << "JIT code run: \n"<< std::endl;
 
@@ -186,17 +186,17 @@ int main(int argc, char** argv)
   int x, y, count = 0;
   unsigned short R,G,B;
   R = G = B = 0;
- //int noise = 1;
+  //int noise = 1;
   //float smooth = 1.0;
-    unsigned short RGB[3];
-    
+  unsigned short RGB[3];
+
   //ffmpeg frame loop
   while(1)
   {
 
     //srand(time);
     count = 0; 
-    
+
     // jit loops over pixels
     for (y=0 ; y<H ; ++y) for (x=0 ; x<W ; ++x)
     {
@@ -205,7 +205,7 @@ int main(int argc, char** argv)
       RGB[2]=frame[count+2];
 
       a->f(RGB,frameCount,x,y);
-      
+
       R=a->R();
       G=a->G();
       B=a->B();
@@ -213,7 +213,7 @@ int main(int argc, char** argv)
       frame[count++]=R;
       frame[count++]=G;
       frame[count++]=B;
-      
+
       time++;
 
       /*
@@ -233,8 +233,8 @@ int main(int argc, char** argv)
       frame[count] += (G-frame[count])/smooth;
       count++;
       frame[count] += (B-frame[count])/smooth;
-*/
-      
+      */
+
       //proceed steps
 
     }
