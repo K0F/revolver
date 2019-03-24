@@ -15,15 +15,15 @@
   
   Is basicly the body of C++ function, triggered once for each rendered pixel per frame rendered. There is some preprocessing going on which gives you following variables:
 
-  ```R``` red pixel value
-  ```G``` green pixel value
-  ```B``` blue pixel value
-  ```max``` default to 65535 which is maximum value in color-range in 16-bit
-  ```x``` x coordinate of current pixel
-  ```y``` y coordinate of current pixel
-  ```frameCount``` number of frames passed
-  ```width``` width of pixel area
-  ```height``` height of pixel area
+  - ```R``` red pixel value
+  - ```G``` green pixel value
+  - ```B``` blue pixel value
+  - ```max``` default to 65535 which is maximum value in color-range in 16-bit
+  - ```x``` x coordinate of current pixel
+  - ```y``` y coordinate of current pixel
+  - ```frameCount``` number of frames passed
+  - ```width``` width of pixel area
+  - ```height``` height of pixel area
 
   Roughly speaking any of valid C++ code is allowed here. For instance you can use math i.e. including ```<math.h>``` functions as well. If you need to extend libraries used by this snippet add them to ```blueprint.h``` file. Defining classes or other functionas are so far out of scope, it is quite easy it extend it if needed.
 
