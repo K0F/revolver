@@ -17,7 +17,8 @@
   - ```-s 720x576``` output size
   - ```-f 1998x1080``` actual framesize (adding letterboxes / pilarboxes to ```-s```)
   - ```-p yuv444p16le``` setting pixelformat of the output (see ```ffmpeg -pix_fmts``` for full list)
-
+  - ```-t 3600``` how much seconds to render i.e. ```-t 01:30:00``` gives 1 hour and half
+  - ```-q 1``` do no show live preview (render mode)
 
 ## dependencies:
 
