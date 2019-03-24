@@ -4,12 +4,30 @@
 
   _Q: That is crazy.. why would you do that? ..it is so much slower_
   
-  _A: Yup, but it is sort of tricky to get 16-bit pixel out of your GPU ..and it is much more fun! ;)_
+  _A: Yup, but it is sort of tricky to get 16-bits-per-channel pixel out of your GPU ..and it is much more fun! ;)_
 
 ## options:
 
-  - ```-i program.txt``` setting input program textfile
+  - ```-i formula.txt``` setting input program textfile
   - ```-o output.mkv``` setting output videofile
+
+### a formula file
+  
+  Is basicly the body of C++ function, triggered once for each rendered pixel per frame rendered. There is some preprocessing going on which gives you following variables:
+
+  ```R``` red pixel value
+  ```G``` green pixel value
+  ```B``` blue pixel value
+  ```max``` default to 65535 which is maximum value in color-range in 16-bit
+  ```x``` x coordinate of current pixel
+  ```y``` y coordinate of current pixel
+  ```frameCount``` number of frames passed
+  ```width``` width of pixel area
+  ```height``` height of pixel area
+
+  Roughly speaking any of valid C++ code is allowed here. For instance you can use math i.e. including ```<math.h>``` functions as well. If you need to extend libraries used by this snippet add them to ```blueprint.h``` file. Defining classes or other functionas are so far out of scope, it is quite easy it extend it if needed.
+
+  If the code is invalid it will prints out compiler error to console.
 
 ### optional:
 
