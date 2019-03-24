@@ -217,10 +217,13 @@ int main(int argc, char** argv)
   
   bool adjust = false;
 
-  if(fW<W){fW=W;adjust=true;}
-  if(fH<H){fH=H;adjust=true;}
-  if(H>fH){fH=H;adjust=true;}
+ 
   if(W>fW){fW=W;adjust=true;}
+  if(H>fH){fH=H;adjust=true;}
+
+  if(fW<W){W=fW;adjust=true;}
+  if(fH<H){H=fH;adjust=true;}
+ 
 
   if(adjust){
   cout << "adjusting pix area to " << W << "x" << H << " framed in " << fW << "x" << fH << endl;
@@ -268,7 +271,7 @@ int main(int argc, char** argv)
   
   vector<unsigned short> frame;
   for(int i = 0 ; i < W*H*3;i++)
-    frame.push_back((unsigned short)0);
+    frame.push_back((unsigned short)1);
   
   //ffmpeg frame loop
   while(1)
@@ -313,17 +316,7 @@ int main(int argc, char** argv)
       if(R<0)R=0;
       if(G<0)G=0;
       if(B<0)B=0;
-
-      // updatePixels()
-      frame[count] += (R-frame[count])/smooth;
-      count++;
-      frame[count] += (G-frame[count])/smooth;
-      count++;
-      frame[count] += (B-frame[count])/smooth;
       */
-
-      //proceed steps
-
     }
 
     //proceed frameCount
@@ -331,6 +324,11 @@ int main(int argc, char** argv)
 
     // Write this frame to the output pipe
     fwrite(frame.data(), sizeof(unsigned short), W*H*3 , pipeout);
+    /*
+    for(unsigned i=0;i<frame.size();++i){
+      unsigned short tmp[1] = {frame[i]};
+      fwrite(tmp, sizeof(unsigned short), 1 , pipeout);
+    }*/
   }
 
   // mem cleanup
