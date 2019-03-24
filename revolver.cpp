@@ -177,6 +177,7 @@ int main(int argc, char** argv)
   char * pix_fmt = getCmdOption(argv, argv + argc, "-p");
   char * rate = getCmdOption(argv, argv + argc, "-r");
   char * timer = getCmdOption(argv, argv + argc, "-t");
+  char * quiet = getCmdOption(argv, argv + argc, "-q");
 
   // it works, duh
   // todo broken parsing.. 
@@ -235,7 +236,11 @@ int main(int argc, char** argv)
   outputpipe.append(to_string(H));
   outputpipe.append(" -r ");
   outputpipe.append(frameRate); // string or float? that is a question
-  outputpipe.append(" -i - -an -loglevel fatal -vcodec ffv1");
+  
+  if(!quiet)
+  outputpipe.append(" -loglevel fatal "); // string or float? that is a question
+  
+  outputpipe.append(" -i - -an -vcodec ffv1");
   //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
   outputpipe.append(" -pix_fmt ");
   outputpipe.append(pixfmt);
@@ -249,9 +254,15 @@ int main(int argc, char** argv)
     outputpipe.append(" -t ");
     outputpipe.append(timer);
   }
-  outputpipe.append(" -threads 4 -f matroska - | tee ");
+  if(!quiet){
+  outputpipe.append(" -f matroska - | tee ");
   outputpipe.append(output);
   outputpipe.append(" | mpv -");
+  }else{
+
+  outputpipe.append(" -f matroska ");
+  outputpipe.append(output);
+  }
 
   // Open an input pipe from ffmpeg and an output pipe to a second instance of ffmpeg
   //FILE *pipein = popen(inputpipe.c_str(), "r");
