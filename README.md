@@ -34,6 +34,7 @@
   - ```frameCount``` number of frames passed
   - ```width``` width of pixel area
   - ```height``` height of pixel area
+  - ```pixels[]``` access to all pixel values
 
   Roughly speaking any of valid C++ code is allowed here. For instance you can use math i.e. including ```<math.h>``` functions as well. If you need to extend libraries used by this snippet add them to ```blueprint.h``` file. Defining classes or other functionas are so far out of scope, it is quite easy to extend it if needed.
 
