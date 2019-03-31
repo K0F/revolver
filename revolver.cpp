@@ -13,7 +13,6 @@
 #include <vector>
 #include <iterator>
 #include <stdlib.h>
-#include <vector>
 
 using namespace std;
 
@@ -151,7 +150,7 @@ void rebuild(char * input){
     "      width = _width;\n"
     "      height = _height;\n"
     "    }\n"
-    "    void f(unsigned short in[], int frameCount,int x,int y) const \n" 
+    "    void f(unsigned short in[],vector<unsigned short>& pixels, int frameCount,int x,int y) const \n" 
     "    {\n" 
     "    unsigned short R=in[0], G=in[1], B=in[2];" +
     inject +
@@ -305,7 +304,7 @@ int main(int argc, char** argv)
       RGB[1]=frame[count+1];
       RGB[2]=frame[count+2];
 
-      a->f(RGB,frameCount,x,y);
+      a->f(RGB,frame,frameCount,x,y);
 
       R=a->R();
       G=a->G();

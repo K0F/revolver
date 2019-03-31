@@ -2,6 +2,10 @@
 #define BLUEPRINT_H
 #include <cstdio>
 #include <math.h>
+#include <vector>
+
+using namespace std;
+
 class A
 {
   protected:
@@ -12,7 +16,7 @@ class A
     mutable int width=720, height=576;
   public:
     virtual void initFrame(int _width,int _height) const = 0;
-    virtual void f(unsigned short in[],int frameCount,int x,int y) const = 0;
+    virtual void f(unsigned short in[],vector<unsigned short>& pixels,int frameCount,int x,int y) const = 0;
     unsigned short R(){return oR;};
     unsigned short G(){return oG;};
     unsigned short B(){return oB;};
