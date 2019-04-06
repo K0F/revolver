@@ -15,7 +15,7 @@
 
   - ```-s 720x576``` output size
   - ```-f 1998x1080``` actual framesize (adding letterboxes / pilarboxes to ```-s```)
-  - ```-r 24000/1001``` or i.e. ```-s 23.97602397602397602397``` to set framerate (defaults on PAL 25)
+  - ```-r 24000/1001``` or i.e. ```-r 23.97602397602397602397``` to set framerate (defaults on PAL 25)
   - ```-p yuv444p16le``` setting pixelformat of the output (see ```ffmpeg -pix_fmts``` for full list)
   - ```-t 3600``` how much seconds to render i.e. ```-t 01:30:00``` gives 1 hour and half
   - ```-q 1``` do no show live preview (render mode)
