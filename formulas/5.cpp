@@ -1,9 +1,10 @@
-
+/*
 if(frameCount==0)
 {
   R=random()%max;
   G=B=R;
 }
+*/
 int X = x-(cos(frameCount/250.0*TWO_PI)*height/2+height/2);
 int Y = y-(sin(frameCount/250.0*TWO_PI)*height/2+height/2);
 float d = sqrt(X*X+Y*Y);

@@ -13,6 +13,7 @@
 #include <vector>
 #include <iterator>
 #include <stdlib.h>
+#include <cstring>
 
 using namespace std;
 
@@ -22,8 +23,10 @@ int H = 576;
 int fW = 720;
 int fH = 576;
 
+int rot = 0;
 std::shared_ptr<A> a;
-
+void* dynlib;
+void* create;
 string frameRate = "25.0";
 string pixfmt = "yuv422p10le";
 //unsigned short frame[];// = {0};
@@ -83,17 +86,29 @@ std::shared_ptr<A> compile(const std::string& code)
   out.close();
 
   // compile the code
+  std::string clean = "rm " + libfile;
   std::string cmd = "g++ -Wall -Wextra " + cppfile + " -o " + libfile
     + " -O2 -shared -fPIC &> " + logfile;
-  int ret = system(cmd.c_str());
+  
+  int ret = system(clean.c_str());
+  int ret2 = system(cmd.c_str());
+  
   if(WEXITSTATUS(ret) != EXIT_SUCCESS) {
+    std::cout << "no files to remove" << std::endl;
+  }
+
+  if(WEXITSTATUS(ret2) != EXIT_SUCCESS) {
     std::cout << "compilation failed, see " << logfile << std::endl;
     system("cat /tmp/jitlog.log");
     exit(EXIT_FAILURE);
   }
 
   // load dynamic library
-  void* dynlib = dlopen (libfile.c_str(), RTLD_LAZY);
+  
+  if(dynlib){
+  dlclose(dynlib);
+  } 
+  dynlib = dlopen (libfile.c_str(), RTLD_LAZY);
   if(!dynlib) {
     std::cerr << "error loading library:\n" << dlerror() << std::endl;
     exit(EXIT_FAILURE);
@@ -101,7 +116,7 @@ std::shared_ptr<A> compile(const std::string& code)
 
   // loading symbol from library and assign to pointer
   // (to be cast to function pointer later)
-  void* create = dlsym(dynlib, "maker");
+  create = dlsym(dynlib, "maker");
   const char* dlsym_error=dlerror();
   if(dlsym_error != NULL)  {
     std::cerr << "error loading symbol:\n" << dlsym_error << std::endl;
@@ -139,7 +154,7 @@ void rebuild(char * input){
 
   std::ifstream t(input);
   std::string inject((std::istreambuf_iterator<char>(t)),
-      std::istreambuf_iterator<char>());
+  std::istreambuf_iterator<char>());
 
 
   // code to be compiled at run-time
@@ -177,6 +192,7 @@ int main(int argc, char** argv)
   char * rate = getCmdOption(argv, argv + argc, "-r");
   char * timer = getCmdOption(argv, argv + argc, "-t");
   char * quiet = getCmdOption(argv, argv + argc, "-q");
+  char * rotate = getCmdOption(argv, argv + argc, "-w");
 
   // it works, duh
   // todo broken parsing.. 
@@ -201,7 +217,6 @@ int main(int argc, char** argv)
     for (const auto &piece : dim[1]) s += piece;
     fH = atoi(s.c_str());
   }
- 
 
   if(pix_fmt){
     pixfmt=string(pix_fmt);
@@ -210,20 +225,23 @@ int main(int argc, char** argv)
   if(rate){
     frameRate=string(rate);
   }
+
+  if(rotate){
+    rot=atoi(rotate);
+  }
+
   //inputpipe.append(input);
   //inputpipe.append(" -f image2pipe -vf scale=48x40 -an -vcodec rawvideo -pix_fmt rgb24 -");
   
   cout << W << "x" << H << " framed in " << fW << "x" << fH << endl;
   
   bool adjust = false;
-
  
   if(W>fW){fW=W;adjust=true;}
   if(H>fH){fH=H;adjust=true;}
 
   if(fW<W){W=fW;adjust=true;}
   if(fH<H){H=fH;adjust=true;}
- 
 
   if(adjust){
   cout << "adjusting pix area to " << W << "x" << H << " framed in " << fW << "x" << fH << endl;
@@ -272,6 +290,7 @@ int main(int argc, char** argv)
 
   int frameCount = 0;
   int time = 1;
+  int which = 1;
   int x, y, count = 0;
   unsigned short R,G,B;
   R = G = B = 0;
@@ -288,11 +307,7 @@ int main(int argc, char** argv)
   {
 
 
-    /*
-    if(frameCount%25==0){
-      rebuild(input);
-    }
-    */
+    
 
     //srand(time);
     count = 0; 
@@ -329,6 +344,19 @@ int main(int argc, char** argv)
       */
     }
 
+    if(rot>0)
+    if(frameCount%rot==0){
+      string fn = "formulas/"+to_string(which+1)+".cpp";
+      char * ina = new char[fn.length()+1];
+      strcpy(ina,fn.c_str());
+      cout << "recompiling " << ina << " " << frameCount << endl << endl;
+      rebuild(ina);
+
+      which++;
+      if(which>10)
+      which = 1;
+    }
+    
     //proceed frameCount
     frameCount++;
 
@@ -342,7 +370,7 @@ int main(int argc, char** argv)
   }
 
   // mem cleanup
-  // dlclose(dynlib);
+  dlclose(dynlib);
   // frame=vector<unsigned char>();
   fflush(pipeout);
   pclose(pipeout);

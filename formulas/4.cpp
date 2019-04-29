@@ -1,7 +1,7 @@
 
 if(frameCount==0)
 {
-  R=random()%max;
+  R=x%max;
   G=B=R;
 }
 int X = x-(width/2);
