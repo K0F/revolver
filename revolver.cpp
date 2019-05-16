@@ -257,7 +257,7 @@ int main(int argc, char** argv)
   if(!quiet)
   outputpipe.append(" -loglevel fatal "); // string or float? that is a question
   
-  outputpipe.append(" -i - -an -vcodec ffv1");
+  outputpipe.append(" -i - -an -vcodec prores_ks -profile:v 3 -movflags +faststart");
   //outputpipe.append(" -color_primaries bt709 -colorspace bt709 -color_trc bt709");
   outputpipe.append(" -pix_fmt ");
   outputpipe.append(pixfmt);
@@ -353,8 +353,8 @@ int main(int argc, char** argv)
       rebuild(ina);
 
       which++;
-      if(which>10)
-      which = 1;
+      if(which>9)
+      which = 0;
     }
     
     //proceed frameCount
