@@ -1,0 +1,10 @@
+long X = cos(frameCount*TWO_PI/25.0)*50.0+width/2;
+long Y = sin(frameCount*TWO_PI/25.0)*50.0+height/2;
+long d = sqrt((X-x+0.5)*(X-x+0.5)+(Y-y+0.5)*(Y-y+0.5));
+long a = atan2(Y-y,X-x);
+// comment
+
+
+B+=(((x-(frameCount/4))^(y+(frameCount/3))+x))/((d*a+1)/100.0)-d;
+R+=(B-R+sin(y/500.0*TWO_PI)+1.0)/50.0;
+G+=(R-G+cos(y/500.337*TWO_PI)+1.0)/50.0;
