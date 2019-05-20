@@ -1,13 +1,13 @@
 #!/bin/bash
 width=$2
 height=$3
-pushd ~/src/titler
+pushd titler
 ./genTitle.sh "$1" $width $height
 popd
-mv ~/src/titler/"$1".mkv output/
+mv titler/"$1".mkv output/
 echo file "$1".mkv > output/concat.txt
 echo file "$1"ren.mkv >> output/concat.txt
-./revolver -q 1 -i formulas/"$1".cpp -p yuv422p10le -s "$width"x"$height" -t 592 -o output/"$1"ren.mkv
+./revolver -q 1 -i formulas/"$1".cpp -p yuv422p10le -s "$width"x"$height" -t 12 -o output/"$1"ren.mkv
 cd output
 ffmpeg -f concat -safe 0 -i concat.txt -c:v copy -y "$1"complete.mkv
 ffmpeg -i "$1"complete.mkv -vf scale=1920:1 -c:v rawvideo -pix_fmt gray16le -f rawvideo - | ffmpeg -ar 48000 -f u16le -ac 1 -i - -c:a pcm_s16le -ar 48000 -ac 2 -y "$1".wav

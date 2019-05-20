@@ -5,35 +5,11 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1998"
    height="1080"
    viewBox="0 0 528.63751 285.74999"
    version="1.1"
-   id="svg8"
-   sodipodi:docname="no.svg"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14">
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="480"
-     id="namedview23"
-     showgrid="false"
-     inkscape:zoom="0.65865866"
-     inkscape:cx="961.63581"
-     inkscape:cy="585.90294"
-     inkscape:window-x="54"
-     inkscape:window-y="30"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg8" />
+   id="svg8">
   <defs
      id="defs2">
     <filter
@@ -69,60 +45,58 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.29358292px;line-height:125%;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     x="257.39014"
+     x="254.57823"
      y="123.98235"
      id="text852"><tspan
        id="tspan856"
-       x="257.39014"
+       x="254.57823"
        y="135.61424"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.29358292px;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;stroke-width:0.26458332px" /></text>
   <text
      id="text864"
      y="140.67625"
-     x="246.77798"
+     x="240.35074"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.7358551px;line-height:125%;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ececec;fill-opacity:1;stroke:none;stroke-width:0.19253759px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      xml:space="preserve"><tspan
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.7358551px;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ececec;stroke-width:0.19253759px"
        y="140.67625"
-       x="246.77798"
+       x="240.35074"
        id="tspan862">No</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.9559021px;line-height:125%;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ececec;fill-opacity:1;stroke:none;stroke-width:0.50986028px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     x="284.17267"
-     y="129.23755"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.12481022px;line-height:125%;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ececec;fill-opacity:1;stroke:none;stroke-width:0.27698216px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="277.9162"
+     y="130.91116"
      id="text868"><tspan
        id="tspan866"
-       x="284.17267"
-       y="129.23755"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.9559021px;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ececec;stroke-width:0.50986028px">6</tspan></text>
+       x="277.9162"
+       y="130.91116"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.12481022px;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ececec;stroke-width:0.27698216px">XI</tspan></text>
   <text
      id="text19"
      y="150.45802"
-     x="279.95514"
+     x="273.52789"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64776945px;line-height:125%;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ececec;fill-opacity:1;stroke:none;stroke-width:0.19253759px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      xml:space="preserve"><tspan
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64776945px;font-family:Calluna;-inkscape-font-specification:'Calluna, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ececec;stroke-width:0.19253759px"
        y="150.45802"
-       x="264.84497"
-       id="tspan17">kof 05/18/19</tspan></text>
+       x="258.41772"
+       id="tspan17">kof 05/20/19</tspan></text>
   <path
-     style="fill:none;fill-opacity:1;stroke:#ececec;stroke-width:0.79374999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 248.15438,143.35691 h 34.70297"
-     id="path21"
-     inkscape:connector-curvature="0" />
+     style="fill:none;fill-opacity:1;stroke:#ececec;stroke-width:0.79374999;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     d="m 241.72718,143.35691 h 34.70297"
+     id="path21" />
   <flowRoot
      xml:space="preserve"
      id="flowRoot25"
-     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-     transform="translate(2.8119015)"><flowRegion
+     style="fill:black;fill-opacity:1;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;letter-spacing:0px;word-spacing:0px"><flowRegion
        id="flowRegion27"><rect
          id="rect29"
          width="241.05244"
