@@ -1,6 +1,6 @@
 # REVOLVER
 
-  Revolver is a digital video synthetiser. It inputs valid c++ code snippet and turning it into a pixel value. Something similar as GLSL is doing on GPU but computed by CPU. 
+  Revolver is a digital video synthetiser. It inputs valid c++ code snippet and turns it into a values/pixels. Something similar as GLSL is doing to your screen on GPU but computed and dumped onto disk by CPU. 
 
   _Q: That is crazy.. why would you do that? ..it is so much slower_
   
