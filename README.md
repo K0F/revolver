@@ -61,3 +61,7 @@
 ## compatibility:
 
   It works on Linux only (MacOs would possibly do as well, untested)
+  
+## author:
+
+Kryštof Pešek aka kof, 2019
