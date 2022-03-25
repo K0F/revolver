@@ -6,6 +6,10 @@
   
   _A: Yup, but it is sort of tricky to get 16-bits-per-channel pixel out of your GPU ..and it is much more fun! ;)_
 
+## preview
+
+[Binary Revolver](https://www.youtube.com/watch?v=IzZTzZvqTOA)
+
 ## options:
 
   - ```-i formula.txt``` setting input program textfile
